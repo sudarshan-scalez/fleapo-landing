@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fleapo | AI Product Factory</title>
     <meta name="description" content="Fleapo is an AI Product Factory that maps, builds, and scales AI-powered products end-to-end — in weeks, not quarters." />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="theme-color" content="#080808" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
@@ -13,7 +16,7 @@
   <body>
     <header class="nav-pill">
       <a class="brand" href="#top" aria-label="Fleapo home">
-        <span class="brand-mark">F</span>
+        <img class="brand-mark" src="./apple-touch-icon.png" alt="" width="32" height="32" />
         <span>Fleapo</span>
       </a>
       <span class="nav-divider"></span>
@@ -71,7 +74,7 @@
 
       <section class="stats">
         <div><strong data-count="150" data-suffix="+">0+</strong><p>Products<br />delivered</p></div>
-        <div><strong>$50M+</strong><p>Client funding<br />enabled</p></div>
+        <div><strong data-count="50" data-prefix="$" data-suffix="M+">$0M+</strong><p>Client funding<br />enabled</p></div>
         <div><strong>4–8 wks</strong><p>Average<br />delivery time</p></div>
         <div><strong data-count="7" data-suffix="">0</strong><p>Countries</p></div>
         <div><strong data-count="13" data-suffix="+">0+</strong><p>Years<br />building</p></div>
@@ -102,10 +105,10 @@
         <div class="section-label">HOW WE WORK</div>
         <h2>Three Leaps<br />from idea to scale</h2>
         <p class="lead">We map before we build.<br />We ship weekly, then we scale what works.</p>
-        <div class="tabs">
-          <button class="active">01<br />LEAPMAP</button>
-          <button>02<br />LEAPBUILD</button>
-          <button>03<br />LEAPSCALE</button>
+        <div class="tabs" role="tablist">
+          <button class="active" data-leap="0" role="tab" aria-selected="true">01<br />LEAPMAP</button>
+          <button data-leap="1" role="tab" aria-selected="false">02<br />LEAPBUILD</button>
+          <button data-leap="2" role="tab" aria-selected="false">03<br />LEAPSCALE</button>
         </div>
         <div class="capabilities">
           <article>
