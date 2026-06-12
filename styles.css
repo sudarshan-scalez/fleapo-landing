@@ -371,6 +371,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
   font-weight: 800;
 }
 .report-head b { color: var(--cyan-2); }
+.report-logo { display: block; height: 22px; width: auto; }
 .report-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -409,6 +410,13 @@ h1, h2, h3, h4, p { margin-top: 0; }
 }
 .case-card { padding: 28px; }
 .case-card h3 { margin: 12px 0 16px; font-size: 26px; }
+.case-logo {
+  display: block;
+  height: 30px;
+  width: auto;
+  max-width: 100%;
+}
+.case-logo--fanfix { height: 48px; margin: -9px 0; }
 .case-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
 .case-card li { padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; color: var(--dim); font-size: 14px; }
 .case-card li b { color: var(--cyan); }
