@@ -8,6 +8,8 @@
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <meta name="theme-color" content="#080808" />
+    <link rel="preconnect" href="https://assets.calendly.com" />
+    <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
@@ -333,11 +335,19 @@
         <div aria-hidden="true" style="position:absolute;left:-5000px"><input type="text" name="b_e15f0379c2077a0cf596534b4_10e1e0cd05" tabindex="-1" autocomplete="off" /></div>
         <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
         <button class="primary" type="submit" id="formSubmit">Submit →</button>
-        <a class="ghost" href="https://calendly.com/pm-fleapo/30min" target="_blank" rel="noopener">Or book a call directly ↗</a>
+        <a class="ghost" href="https://calendly.com/pm-fleapo/fleapo-discovery-call-clone" target="_blank" rel="noopener">Or book a call directly ↗</a>
         <p class="muted">or email: info@fleapo.com</p>
       </form>
+      <div class="modal-card booking-card" id="bookingView" hidden>
+        <button type="button" class="close" aria-label="Close">×</button>
+        <p class="section-label">YOU'RE IN ✓</p>
+        <h2>Now lock in your discovery call.</h2>
+        <p class="muted">Pick a slot that works for you — we'll see you there.</p>
+        <div id="calendlyInline" class="calendly-inline"></div>
+      </div>
     </dialog>
 
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script src="./script.js" defer></script>
   </body>
 </html>

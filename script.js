@@ -8,7 +8,9 @@ document.querySelectorAll(".open-modal").forEach((button) => {
   button.addEventListener("click", () => modal.showModal());
 });
 
-modal.querySelector(".close").addEventListener("click", () => modal.close());
+modal.querySelectorAll(".close").forEach((btn) =>
+  btn.addEventListener("click", () => modal.close())
+);
 
 /* ── Mailchimp submission (JSONP, no redirect) ────────────── */
 const MC_URL = "https://fleapo.us4.list-manage.com/subscribe/post-json";
@@ -20,6 +22,41 @@ const setFormMsg = (text, type) => {
   formMsg.textContent = text;
   formMsg.className = `form-msg ${type}`;
 };
+
+/* ── Inline Calendly hand-off after a successful lead ─────── */
+const CALENDLY_URL = "https://calendly.com/pm-fleapo/fleapo-discovery-call-clone";
+const bookingView = document.querySelector("#bookingView");
+const calendlyInline = document.querySelector("#calendlyInline");
+
+const showBooking = (fullname, email) => {
+  form.hidden = true;
+  bookingView.hidden = false;
+  if (calendlyInline.dataset.loaded) return;
+  const url = new URL(CALENDLY_URL);
+  url.searchParams.set("hide_gdpr_banner", "1");
+  url.searchParams.set("background_color", "0f0f0f");
+  url.searchParams.set("text_color", "f5f5f5");
+  url.searchParams.set("primary_color", "00e5ff");
+  if (fullname) url.searchParams.set("name", fullname);
+  if (email) url.searchParams.set("email", email);
+  const init = () => {
+    if (!window.Calendly) return false;
+    window.Calendly.initInlineWidget({ url: url.toString(), parentElement: calendlyInline });
+    calendlyInline.dataset.loaded = "1";
+    return true;
+  };
+  if (!init()) {
+    const timer = setInterval(() => { if (init()) clearInterval(timer); }, 150);
+    setTimeout(() => clearInterval(timer), 8000);
+  }
+};
+
+// Reset to the form view whenever the modal is reopened.
+modal.addEventListener("close", () => {
+  form.hidden = false;
+  bookingView.hidden = true;
+  setFormMsg("", "");
+});
 
 const validateForm = () => {
   for (const field of form.querySelectorAll("[required]")) {
@@ -78,9 +115,11 @@ form.addEventListener("submit", (event) => {
   };
   window[cb] = (res) => {
     cleanup();
-    if (res.result === "success") {
+    // "already subscribed" still means a valid lead — treat as success and book.
+    const alreadyIn = /already subscribed/i.test(res.msg || "");
+    if (res.result === "success" || alreadyIn) {
+      showBooking(fullname, form.EMAIL.value.trim());
       form.reset();
-      setFormMsg("Thanks — you're in. We'll be in touch within 24 hours.", "success");
     } else {
       const msg = (res.msg || "Something went wrong. Please try again.").replace(/^\d+\s*-\s*/, "");
       setFormMsg(msg, "error");

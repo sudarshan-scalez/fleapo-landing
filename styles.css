@@ -565,6 +565,7 @@ dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(8px); }
   max-height: calc(100vh - 64px);
   overflow-y: auto;
 }
+.modal-card[hidden] { display: none; }
 .modal-card h2 { margin-bottom: 8px; font-size: 32px; line-height: 1; }
 .modal-card .ghost { min-height: 48px; padding: 10px 24px; }
 .close {
@@ -580,6 +581,19 @@ label { display: grid; gap: 8px; color: var(--muted); font-weight: 700; }
 .form-msg { display: none; margin: 0; font-size: 14px; line-height: 1.45; }
 .form-msg.error { display: block; color: #ff8a8a; }
 .form-msg.success { display: block; color: var(--cyan); font-weight: 700; }
+
+/* Booking view — widen the dialog and embed Calendly */
+dialog:has(.booking-card:not([hidden])) { width: min(720px, calc(100vw - 32px)); }
+.booking-card .section-label { color: var(--cyan); }
+.calendly-inline {
+  min-width: 320px;
+  height: min(680px, calc(100vh - 220px));
+  border-radius: 8px;
+  overflow: hidden;
+}
+@media (max-width: 760px) {
+  .calendly-inline { height: min(620px, calc(100vh - 200px)); }
+}
 input[type="text"], input[type="email"], input[type="tel"], select, textarea {
   width: 100%;
   border: 1px solid var(--border);
