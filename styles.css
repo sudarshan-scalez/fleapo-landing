@@ -577,7 +577,10 @@ dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(8px); }
   background: var(--panel-2);
 }
 label { display: grid; gap: 8px; color: var(--muted); font-weight: 700; }
-input[type="text"], select, textarea {
+.form-msg { display: none; margin: 0; font-size: 14px; line-height: 1.45; }
+.form-msg.error { display: block; color: #ff8a8a; }
+.form-msg.success { display: block; color: var(--cyan); font-weight: 700; }
+input[type="text"], input[type="email"], input[type="tel"], select, textarea {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 8px;

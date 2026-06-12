@@ -10,22 +10,88 @@ document.querySelectorAll(".open-modal").forEach((button) => {
 
 modal.querySelector(".close").addEventListener("click", () => modal.close());
 
+/* ── Mailchimp submission (JSONP, no redirect) ────────────── */
+const MC_URL = "https://fleapo.us4.list-manage.com/subscribe/post-json";
+const MC_PARAMS = "u=e15f0379c2077a0cf596534b4&id=10e1e0cd05&f_id=00310ee3f0";
+const formMsg = document.querySelector("#formMsg");
+const formSubmit = document.querySelector("#formSubmit");
+
+const setFormMsg = (text, type) => {
+  formMsg.textContent = text;
+  formMsg.className = `form-msg ${type}`;
+};
+
+const validateForm = () => {
+  for (const field of form.querySelectorAll("[required]")) {
+    if (!field.value.trim()) {
+      field.focus();
+      setFormMsg(`Please fill in “${field.closest("label").firstChild.textContent.replace(" *", "").trim()}”.`, "error");
+      return false;
+    }
+  }
+  const email = form.EMAIL.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    form.EMAIL.focus();
+    setFormMsg("Please enter a valid email address.", "error");
+    return false;
+  }
+  const phone = form.PHONE.value.replace(/[\s()-]/g, "");
+  if (!/^\+?\d{7,15}$/.test(phone)) {
+    form.PHONE.focus();
+    setFormMsg("Please enter a valid phone number (include country code).", "error");
+    return false;
+  }
+  return true;
+};
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  const data = new FormData(form);
-  const body = [
-    `Name: ${data.get("name")}`,
-    `Company: ${data.get("company")}`,
-    `Role: ${data.get("role")}`,
-    `What they want to build: ${data.get("brief")}`,
-    `Journey stage: ${data.get("stage")}`,
-    `Timeline: ${data.get("timeline")}`,
-  ].join("\n");
-  window.location.href = `mailto:info@fleapo.com?subject=${encodeURIComponent(
-    `New enquiry from ${data.get("name")} (${data.get("company")})`
-  )}&body=${encodeURIComponent(body)}`;
-  modal.close();
-  form.reset();
+  if (!validateForm()) return;
+
+  const fullname = form.fullname.value.trim();
+  const [fname, ...rest] = fullname.split(/\s+/);
+  const params = new URLSearchParams({
+    EMAIL: form.EMAIL.value.trim(),
+    FNAME: fname,
+    LNAME: rest.join(" ") || fname,
+    PHONE: form.PHONE.value.trim(),
+    COMPANY: form.COMPANY.value.trim(),
+    MMERGE7: form.MMERGE7.value,
+    MMERGE8: form.MMERGE8.value.trim(),
+    MMERGE9: form.MMERGE9.value,
+    MMERGE10: form.MMERGE10.value,
+  });
+  const honeypot = form.querySelector('[name^="b_"]');
+  if (honeypot.value) return; // bot
+
+  formSubmit.disabled = true;
+  formSubmit.textContent = "Sending…";
+  setFormMsg("", "");
+
+  const cb = `mcCallback_${Date.now()}`;
+  const script = document.createElement("script");
+  const cleanup = () => {
+    delete window[cb];
+    script.remove();
+    formSubmit.disabled = false;
+    formSubmit.textContent = "Submit →";
+  };
+  window[cb] = (res) => {
+    cleanup();
+    if (res.result === "success") {
+      form.reset();
+      setFormMsg("Thanks — you're in. We'll be in touch within 24 hours.", "success");
+    } else {
+      const msg = (res.msg || "Something went wrong. Please try again.").replace(/^\d+\s*-\s*/, "");
+      setFormMsg(msg, "error");
+    }
+  };
+  script.onerror = () => {
+    cleanup();
+    setFormMsg("Network error — please try again, or email info@fleapo.com.", "error");
+  };
+  script.src = `${MC_URL}?${MC_PARAMS}&c=${cb}&${params.toString()}`;
+  document.body.appendChild(script);
 });
 
 menu.addEventListener("click", () => {
