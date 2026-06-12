@@ -58,6 +58,13 @@ modal.addEventListener("close", () => {
   setFormMsg("", "");
 });
 
+// When the visitor finishes booking in the embed, send them to the confirmation page.
+window.addEventListener("message", (e) => {
+  if (e.origin.includes("calendly.com") && e.data?.event === "calendly.event_scheduled") {
+    window.location.href = "/confirmation";
+  }
+});
+
 const validateForm = () => {
   for (const field of form.querySelectorAll("[required]")) {
     if (!field.value.trim()) {
