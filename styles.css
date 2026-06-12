@@ -702,7 +702,7 @@ input[type="text"], input[type="email"], input[type="tel"], select, textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 160px 16px 80px;
+  padding: 96px 16px 80px;
   overflow: hidden;
 }
 .confirm-copy {
@@ -759,7 +759,7 @@ input[type="text"], input[type="email"], input[type="tel"], select, textarea {
 
 @media (max-width: 900px) {
   .prep-grid { grid-template-columns: 1fr; }
-  .confirm-hero { min-height: 520px; padding-top: 128px; }
+  .confirm-hero { min-height: 520px; padding-top: 72px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
