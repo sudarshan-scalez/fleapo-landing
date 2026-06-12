@@ -34,8 +34,9 @@ const showBooking = (fullname, email) => {
   if (calendlyInline.dataset.loaded) return;
   const url = new URL(CALENDLY_URL);
   url.searchParams.set("hide_gdpr_banner", "1");
-  url.searchParams.set("background_color", "0f0f0f");
-  url.searchParams.set("text_color", "f5f5f5");
+  // Use Calendly's default light theme: its "Enter Details" step always renders
+  // white input boxes, so a custom dark text_color would make typed/prefilled
+  // text invisible (white-on-white). Light theme keeps dark text on white inputs.
   url.searchParams.set("primary_color", "00e5ff");
   if (fullname) url.searchParams.set("name", fullname);
   if (email) url.searchParams.set("email", email);
