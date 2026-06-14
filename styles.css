@@ -821,6 +821,7 @@ input[type="text"], input[type="email"], input[type="tel"], select, textarea {
   .hero-copy p { font-size: 16px; }
   .hero-actions { flex-direction: column; }
   .stats, .capabilities, .proof, .case-grid, .founder, .faq, .site-footer, .split { grid-template-columns: 1fr; }
+  .split { gap: 28px; }
   .stats div { border-right: 0; border-bottom: 1px solid var(--border); }
   .stats div:last-child { border-bottom: 0; }
   .tabs { width: 100%; border-radius: 8px; }
