@@ -14,7 +14,9 @@ modal.querySelectorAll(".close").forEach((btn) =>
 
 /* ── Mailchimp submission (JSONP, no redirect) ────────────── */
 const MC_URL = "https://fleapo.us4.list-manage.com/subscribe/post-json";
-const MC_PARAMS = "u=e15f0379c2077a0cf596534b4&id=10e1e0cd05&f_id=00310ee3f0";
+// No f_id: the saved form config still marks the old Company field required.
+// Omitting it validates against the audience's own field settings instead.
+const MC_PARAMS = "u=e15f0379c2077a0cf596534b4&id=10e1e0cd05";
 const formMsg = document.querySelector("#formMsg");
 const formSubmit = document.querySelector("#formSubmit");
 
@@ -86,6 +88,10 @@ const validateForm = () => {
     setFormMsg("Please enter a valid phone number (include country code).", "error");
     return false;
   }
+  if (!form.querySelectorAll('input[name="goal"]:checked').length) {
+    setFormMsg("Please select at least one thing you'd like to achieve with AI.", "error");
+    return false;
+  }
   return true;
 };
 
@@ -95,15 +101,16 @@ form.addEventListener("submit", (event) => {
 
   const fullname = form.fullname.value.trim();
   const [fname, ...rest] = fullname.split(/\s+/);
+  const goals = [...form.querySelectorAll('input[name="goal"]:checked')].map((c) => c.value).join(", ");
   const params = new URLSearchParams({
     EMAIL: form.EMAIL.value.trim(),
     FNAME: fname,
     LNAME: rest.join(" ") || fname,
     PHONE: form.PHONE.value.trim(),
-    COMPANY: form.COMPANY.value.trim(),
+    WEBSITE: form.WEBSITE.value.trim(),
     MMERGE7: form.MMERGE7.value,
-    MMERGE8: form.MMERGE8.value.trim(),
-    MMERGE9: form.MMERGE9.value,
+    GOALS: goals,
+    CSIZE: form.CSIZE.value,
     MMERGE10: form.MMERGE10.value,
   });
   const honeypot = form.querySelector('[name^="b_"]');

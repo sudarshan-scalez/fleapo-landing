@@ -327,16 +327,24 @@
     <dialog id="contactModal">
       <form class="modal-card" id="contactForm" novalidate>
         <button type="button" class="close" aria-label="Close">×</button>
-        <p class="section-label">SCHEDULE A CALL</p>
-        <h2>Let's start with a conversation.</h2>
+        <p class="section-label">BOOK YOUR FREE CALL</p>
+        <h2>Let's build your AI-native company.</h2>
+        <p class="form-intro">Fleapo helps growth-stage companies move from experimenting with AI to actually running on it — benchmarking where you stand, closing the capability gaps, and building AI into your real workflows. Tell us a little about where you are and we'll take it from there.</p>
         <label>Full Name *<input type="text" name="fullname" autocomplete="name" required /></label>
-        <label>Email *<input type="email" name="EMAIL" autocomplete="email" required /></label>
+        <label>Work Email *<input type="email" name="EMAIL" autocomplete="email" required /></label>
         <label>Phone Number *<input type="tel" name="PHONE" autocomplete="tel" placeholder="+91 00000 00000" required /></label>
-        <label>Company *<input type="text" name="COMPANY" autocomplete="organization" required /></label>
-        <label>Your Role *<select name="MMERGE7" required><option value="" disabled selected>Select…</option><option>Founder</option><option>CTO</option><option>Product</option><option>Operations</option><option>Other</option></select></label>
-        <label>What are you looking to do with AI? *<textarea name="MMERGE8" rows="3" placeholder="2–3 sentences" required></textarea></label>
-        <label>Where are you on your journey? *<select name="MMERGE9" required><option value="" disabled selected>Select…</option><option value="Pre-launch">Just exploring AI</option><option value="Launched &amp; Growing">Running pilots</option><option value="Scaling">Scaling AI across teams</option><option value="Enlterprise">Company-wide rollout</option></select></label>
-        <label>Timeline *<select name="MMERGE10" required><option value="" disabled selected>Select…</option><option value="ASAP">ASAP</option><option value="1-3 months">1–3 months</option><option value="3-6 months">3–6 months</option><option value="Exploring">Just exploring</option></select></label>
+        <label>Company Website *<input type="text" name="WEBSITE" autocomplete="url" placeholder="yourcompany.com" required /></label>
+        <label>What best describes your role? *<select name="MMERGE7" required><option value="" disabled selected>Select…</option><option>Founder / CEO</option><option>CXO / Leadership</option><option>Head of Department</option><option>Individual Contributor</option></select></label>
+        <fieldset class="checkgroup">
+          <legend>What are you looking to achieve with AI? *<span class="hint">Select all that apply</span></legend>
+          <label class="check"><input type="checkbox" name="goal" value="Assess AI readiness across teams and roles" /><span>Assess AI readiness across teams and roles</span></label>
+          <label class="check"><input type="checkbox" name="goal" value="Train our workforce to use AI effectively day-to-day" /><span>Train our workforce to use AI effectively day-to-day</span></label>
+          <label class="check"><input type="checkbox" name="goal" value="Redesign workflows using AI" /><span>Redesign workflows using AI</span></label>
+          <label class="check"><input type="checkbox" name="goal" value="Deploy AI systems or agents internally" /><span>Deploy AI systems or agents internally</span></label>
+          <label class="check"><input type="checkbox" name="goal" value="Explore customer-facing AI use cases" /><span>Explore customer-facing AI use cases</span></label>
+        </fieldset>
+        <label>Company Size *<select name="CSIZE" required><option value="" disabled selected>Select…</option><option>1-99</option><option>100-499</option><option>500-999</option><option>1000+</option></select></label>
+        <label>How soon are you looking to move? *<select name="MMERGE10" required><option value="" disabled selected>Select…</option><option>Immediately (0–30 days)</option><option>1–3 months</option><option>Exploring / not sure yet</option></select></label>
         <div aria-hidden="true" style="position:absolute;left:-5000px"><input type="text" name="b_e15f0379c2077a0cf596534b4_10e1e0cd05" tabindex="-1" autocomplete="off" /></div>
         <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
         <button class="primary" type="submit" id="formSubmit">Submit →</button>

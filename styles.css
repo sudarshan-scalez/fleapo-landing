@@ -588,6 +588,26 @@ dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(8px); }
   background: var(--panel-2);
 }
 label { display: grid; gap: 8px; color: var(--muted); font-weight: 700; }
+.form-intro { margin: -4px 0 6px; color: var(--dim); font-size: 14px; line-height: 1.55; }
+.checkgroup { margin: 0; padding: 0; border: 0; display: grid; gap: 10px; }
+.checkgroup legend { padding: 0; margin-bottom: 4px; color: var(--muted); font-weight: 700; }
+.checkgroup .hint { display: block; margin-top: 2px; color: var(--dim); font-weight: 400; font-size: 12px; }
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #090909;
+  color: var(--muted);
+  font-weight: 400;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease;
+}
+.check:hover { border-color: rgba(0,229,255,.4); }
+.check:has(input:checked) { border-color: var(--cyan); background: rgba(0,229,255,.08); color: var(--text); }
+.check input { accent-color: var(--cyan); width: 17px; height: 17px; margin: 1px 0 0; flex-shrink: 0; }
 .form-msg { display: none; margin: 0; font-size: 14px; line-height: 1.45; }
 .form-msg.error { display: block; color: #ff8a8a; }
 .form-msg.success { display: block; color: var(--cyan); font-weight: 700; }
