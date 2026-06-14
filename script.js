@@ -133,6 +133,7 @@ form.addEventListener("submit", (event) => {
     // "already subscribed" still means a valid lead — treat as success and book.
     const alreadyIn = /already subscribed/i.test(res.msg || "");
     if (res.result === "success" || alreadyIn) {
+      if (window.fbq) fbq("track", "Lead");
       showBooking(fullname, form.EMAIL.value.trim());
       form.reset();
     } else {
