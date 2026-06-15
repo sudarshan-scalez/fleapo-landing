@@ -468,8 +468,8 @@ h1, h2, h3, h4, p { margin-top: 0; }
 
 .founder {
   display: grid;
-  grid-template-columns: 1fr .9fr .55fr;
-  gap: 24px;
+  grid-template-columns: 1fr .9fr;
+  gap: 40px;
   border-top: 1px solid var(--border);
 }
 .founder-copy p { color: var(--dim); line-height: 1.65; }
