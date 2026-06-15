@@ -332,7 +332,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
   gap: 20px;
   text-align: left;
 }
-.capabilities article { padding: 32px; min-height: 380px; }
+.capabilities article { padding: 32px; min-height: 200px; }
 .capabilities article > span { color: var(--cyan); font-weight: 900; }
 .capabilities h3 { margin: 18px 0 8px; font-size: 28px; }
 .capabilities h4 { font-size: 21px; }
@@ -430,6 +430,12 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .case-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
 .case-card li { padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; color: var(--dim); font-size: 14px; }
 .case-card li b { color: var(--cyan); }
+.investors-band {
+  padding: 56px max(24px, calc((100vw - 1180px) / 2));
+  border-bottom: 1px solid var(--border);
+}
+.investors-band .investors { margin-top: 0; }
+.investors-band .trust-banner { text-align: center; }
 .investors { margin-top: 56px; display: grid; gap: 18px; }
 .trust-banner { margin: 0 0 8px; color: var(--dim); font-size: 16px; }
 .trust-banner b { color: var(--text); }
