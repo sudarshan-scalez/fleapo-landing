@@ -30,7 +30,7 @@ const CALENDLY_URL = "https://calendly.com/pm-fleapo/fleapo-discovery-call-clone
 const bookingView = document.querySelector("#bookingView");
 const calendlyInline = document.querySelector("#calendlyInline");
 
-const showBooking = (fullname, email) => {
+const showBooking = (fullname, email, phone) => {
   form.hidden = true;
   bookingView.hidden = false;
   if (calendlyInline.dataset.loaded) return;
@@ -40,11 +40,15 @@ const showBooking = (fullname, email) => {
   // white input boxes, so a custom dark text_color would make typed/prefilled
   // text invisible (white-on-white). Light theme keeps dark text on white inputs.
   url.searchParams.set("primary_color", "00e5ff");
-  if (fullname) url.searchParams.set("name", fullname);
-  if (email) url.searchParams.set("email", email);
+  // Prefill via the object (not URL params) so spaces don't become "+" and the
+  // phone populates Calendly's SMS-reminder field.
+  const prefill = {};
+  if (fullname) prefill.name = fullname;
+  if (email) prefill.email = email;
+  if (phone) prefill.smsReminderNumber = phone.replace(/[\s()-]/g, "");
   const init = () => {
     if (!window.Calendly) return false;
-    window.Calendly.initInlineWidget({ url: url.toString(), parentElement: calendlyInline });
+    window.Calendly.initInlineWidget({ url: url.toString(), parentElement: calendlyInline, prefill });
     calendlyInline.dataset.loaded = "1";
     return true;
   };
@@ -134,7 +138,7 @@ form.addEventListener("submit", (event) => {
     const alreadyIn = /already subscribed/i.test(res.msg || "");
     if (res.result === "success" || alreadyIn) {
       if (window.fbq) fbq("track", "Lead");
-      showBooking(fullname, form.EMAIL.value.trim());
+      showBooking(fullname, form.EMAIL.value.trim(), form.PHONE.value.trim());
       form.reset();
     } else {
       const msg = (res.msg || "Something went wrong. Please try again.").replace(/^\d+\s*-\s*/, "");
