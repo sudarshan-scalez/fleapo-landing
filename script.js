@@ -3,7 +3,10 @@ const form = document.querySelector("#contactForm");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 document.querySelectorAll(".open-modal").forEach((button) => {
-  button.addEventListener("click", () => modal.showModal());
+  button.addEventListener("click", () => {
+    modal.showModal();
+    warmCalendly();
+  });
 });
 
 modal.querySelectorAll(".close").forEach((btn) =>
@@ -28,32 +31,51 @@ const CALENDLY_URL = "https://calendly.com/pm-fleapo/fleapo-discovery-call-clone
 const bookingView = document.querySelector("#bookingView");
 const calendlyInline = document.querySelector("#calendlyInline");
 
+// Calendly display options. Light theme keeps dark text readable on its white inputs.
+const calendlyUrl = () => {
+  const url = new URL(CALENDLY_URL);
+  url.searchParams.set("hide_gdpr_banner", "1");
+  url.searchParams.set("primary_color", "00e5ff");
+  return url.toString();
+};
+
+// Run a callback as soon as the Calendly widget script is available.
+const whenCalendlyReady = (fn) => {
+  if (window.Calendly) return fn();
+  const timer = setInterval(() => {
+    if (window.Calendly) { clearInterval(timer); fn(); }
+  }, 120);
+  setTimeout(() => clearInterval(timer), 8000);
+};
+
+// Warm the widget the moment the form opens, so the connection and Calendly
+// assets are already loaded before the lead finishes filling the form.
+let calendlyWarmed = false;
+const warmCalendly = () => {
+  if (calendlyWarmed) return;
+  calendlyWarmed = true;
+  whenCalendlyReady(() => {
+    window.Calendly.initInlineWidget({ url: calendlyUrl(), parentElement: calendlyInline });
+  });
+};
+
 const showBooking = (fullname, email, phone) => {
   form.hidden = true;
   bookingView.hidden = false;
-  if (calendlyInline.dataset.loaded) return;
-  const url = new URL(CALENDLY_URL);
-  url.searchParams.set("hide_gdpr_banner", "1");
-  // Use Calendly's default light theme: its "Enter Details" step always renders
-  // white input boxes, so a custom dark text_color would make typed/prefilled
-  // text invisible (white-on-white). Light theme keeps dark text on white inputs.
-  url.searchParams.set("primary_color", "00e5ff");
+  if (calendlyInline.dataset.booked) return;
   // Prefill via the object (not URL params) so spaces don't become "+" and the
   // phone populates Calendly's SMS-reminder field.
   const prefill = {};
   if (fullname) prefill.name = fullname;
   if (email) prefill.email = email;
   if (phone) prefill.smsReminderNumber = phone.replace(/[\s()-]/g, "");
-  const init = () => {
-    if (!window.Calendly) return false;
-    window.Calendly.initInlineWidget({ url: url.toString(), parentElement: calendlyInline, prefill });
-    calendlyInline.dataset.loaded = "1";
-    return true;
-  };
-  if (!init()) {
-    const timer = setInterval(() => { if (init()) clearInterval(timer); }, 150);
-    setTimeout(() => clearInterval(timer), 8000);
-  }
+  // Re-init with the lead's details. Assets are already warm from form-open,
+  // so this swap is near-instant.
+  whenCalendlyReady(() => {
+    calendlyInline.innerHTML = "";
+    window.Calendly.initInlineWidget({ url: calendlyUrl(), parentElement: calendlyInline, prefill });
+    calendlyInline.dataset.booked = "1";
+  });
 };
 
 // Reset to the form view whenever the modal is reopened.
