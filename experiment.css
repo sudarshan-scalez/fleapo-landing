@@ -1,0 +1,80 @@
+/* ── Experiment layer: 3D + interactive polish ──────────────
+   Loaded on top of styles.css. Preview-only, offer/content unchanged. */
+
+/* Hero 3D canvas (neural-network particle field) */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  animation: canvas-in 1.6s ease forwards .2s;
+}
+@keyframes canvas-in { to { opacity: 1; } }
+
+/* Soft dark vignette so the headline stays readable over the particles */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at center, rgba(8,8,8,.72), transparent 70%);
+}
+
+/* Staggered hero entrance */
+.hero-copy > * {
+  opacity: 0;
+  animation: hero-rise .9s cubic-bezier(.22,.61,.36,1) forwards;
+}
+.hero-copy > .badge { animation-delay: .15s; }
+.hero-copy > h1 { animation-delay: .28s; }
+.hero-copy > .hero-sub { animation-delay: .44s; }
+.hero-copy > .hero-actions { animation-delay: .58s; }
+.hero-copy > .hero-note { animation-delay: .7s; }
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Snappier transform transition on tiltable cards (was .35s) */
+.case-card, .capabilities article, .gap-card, .report {
+  transition: transform .14s ease-out, border-color .35s ease, box-shadow .35s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Cursor follower ring (desktop pointer only) */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 1.5px solid rgba(0,229,255,.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+  transition: width .22s ease, height .22s ease, margin .22s ease, background .22s ease, opacity .3s ease;
+  opacity: 0;
+}
+.cursor-dot.is-active { opacity: 1; }
+.cursor-dot.is-lg {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  background: rgba(0,229,255,.1);
+}
+@media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
+
+/* Magnetic buttons keep their own quick transition */
+.primary, .ghost { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-canvas, .hero-copy > * { animation: none; opacity: 1; }
+  .cursor-dot { display: none; }
+  .case-card, .capabilities article, .gap-card, .report { transform: none !important; }
+}
