@@ -1,6 +1,4 @@
 const modal = document.querySelector("#contactModal");
-const menu = document.querySelector(".menu");
-const nav = document.querySelector(".nav-pill nav");
 const form = document.querySelector("#contactForm");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -153,14 +151,6 @@ form.addEventListener("submit", (event) => {
   document.body.appendChild(script);
 });
 
-menu.addEventListener("click", () => {
-  nav.classList.toggle("open");
-});
-
-nav.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => nav.classList.remove("open"));
-});
-
 document.querySelectorAll(".faq-list details").forEach((detail) => {
   detail.addEventListener("toggle", () => {
     if (!detail.open) return;
@@ -265,18 +255,3 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
 revealTargets.forEach((el) => revealObserver.observe(el));
-
-/* ── Nav scrollspy ────────────────────────────────────────── */
-const navLinks = [...nav.querySelectorAll('a[href^="#"]')];
-const spyTargets = navLinks
-  .map((link) => document.querySelector(link.getAttribute("href")))
-  .filter(Boolean);
-const spyObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    navLinks.forEach((link) =>
-      link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`)
-    );
-  });
-}, { rootMargin: "-40% 0px -55% 0px" });
-spyTargets.forEach((section) => spyObserver.observe(section));
